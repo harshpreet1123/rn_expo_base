@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../hooks/useTheme';
 import { ProfileMenuItemProps } from '../types';
 
-export const ProfileMenuItem = ({ icon, label, onPress, isSwitch, switchValue, onSwitchChange, color, value }: ProfileMenuItemProps) => {
+export const ProfileMenuItem = ({ icon, label, onPress, isSwitch, switchValue, onSwitchChange, color, value, showChevron = true }: ProfileMenuItemProps) => {
   const { theme } = useTheme();
   const styles = useMemo(() => getStyles(theme), [theme]);
 
@@ -17,14 +17,14 @@ export const ProfileMenuItem = ({ icon, label, onPress, isSwitch, switchValue, o
       {value && <Text style={[styles.valueText, { color: theme.colors.textSecondary }]}>{value}</Text>}
       {isSwitch ? (
         <Switch
-            value={switchValue}
-            onValueChange={onSwitchChange}
-            trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
-            thumbColor={theme.colors.surface}
-            ios_backgroundColor={theme.colors.border}
+          value={switchValue}
+          onValueChange={onSwitchChange}
+          trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
+          thumbColor={theme.colors.surface}
+          ios_backgroundColor={theme.colors.border}
         />
       ) : (
-        <Ionicons name="chevron-forward" size={20} color={theme.colors.textTertiary} />
+        showChevron && <Ionicons name="chevron-forward" size={20} color={theme.colors.textTertiary} />
       )}
     </TouchableOpacity>
   );
@@ -50,7 +50,7 @@ const getStyles = (theme: any) => StyleSheet.create({
     fontWeight: '500',
   },
   valueText: {
-      ...theme.typography.caption,
-      marginRight: theme.spacing.s,
+    ...theme.typography.caption,
+    marginRight: theme.spacing.s,
   },
 });

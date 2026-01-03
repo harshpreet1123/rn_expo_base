@@ -5,7 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../hooks/useTheme';
 
-export const ActivityScreen = () => {
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { MainTabParamList } from '../navigation/types';
+
+type Props = BottomTabScreenProps<MainTabParamList, 'Activity'>;
+
+export const ActivityScreen = ({ navigation }: Props) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const styles = useMemo(() => getStyles(theme), [theme]);

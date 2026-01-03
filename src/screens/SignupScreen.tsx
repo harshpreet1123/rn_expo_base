@@ -9,7 +9,12 @@ import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { useTheme } from '../hooks/useTheme';
 
-export const SignupScreen = ({ navigation }: any) => {
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '../navigation/types';
+
+type Props = NativeStackScreenProps<AuthStackParamList, 'Signup'>;
+
+export const SignupScreen = ({ navigation }: Props) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -23,24 +28,24 @@ export const SignupScreen = ({ navigation }: any) => {
     setLoading(true);
     // Simulate API call
     setTimeout(() => {
-        setLoading(false);
-        navigation.navigate('Login');
+      setLoading(false);
+      navigation.navigate('Login');
     }, 1500);
   };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]} edges={['top', 'bottom']}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
       >
-        <ScrollView 
-          contentContainerStyle={styles.scrollContent} 
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-              <Ionicons name="arrow-back" size={24} color={theme.colors.textPrimary} />
+            <Ionicons name="arrow-back" size={24} color={theme.colors.textPrimary} />
           </TouchableOpacity>
 
           <View style={styles.header}>
@@ -64,7 +69,7 @@ export const SignupScreen = ({ navigation }: any) => {
                   error={touched.name && errors.name ? errors.name : undefined}
                   leftIcon="person-outline"
                 />
-                
+
                 <Input
                   label={t('email')}
                   placeholder={t('enterEmail')}
@@ -89,14 +94,14 @@ export const SignupScreen = ({ navigation }: any) => {
                 />
 
                 <Button
-                    title={t('signUp')}
-                    onPress={() => handleSubmit()}
-                    loading={loading}
-                    style={styles.button}
+                  title={t('signUp')}
+                  onPress={() => handleSubmit()}
+                  loading={loading}
+                  style={styles.button}
                 />
 
                 <Text style={[styles.footerText, { color: theme.colors.textSecondary }]}>
-                    {t('alreadyHaveAccount')} <Text style={[styles.loginText, { color: theme.colors.primary }]} onPress={() => navigation.navigate('Login')}>{t('signIn')}</Text>
+                  {t('alreadyHaveAccount')} <Text style={[styles.loginText, { color: theme.colors.primary }]} onPress={() => navigation.navigate('Login')}>{t('signIn')}</Text>
                 </Text>
               </View>
             )}
@@ -141,6 +146,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   loginText: {
-      fontWeight: 'bold',
+    fontWeight: 'bold',
   }
 });

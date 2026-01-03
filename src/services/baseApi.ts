@@ -5,7 +5,7 @@ import { RootState } from '../store';
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: fetchBaseQuery({ 
-    baseUrl: 'https://jsonplaceholder.typicode.com/', // Example base URL
+    baseUrl: process.env.EXPO_PUBLIC_API_BASE_URL || 'https://api.example.com',
     prepareHeaders: (headers, { getState }) => {
       // By default, if we have a token in the store, let's use that for authenticated requests
       const token = (getState() as RootState).auth.token;

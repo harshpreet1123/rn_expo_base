@@ -11,6 +11,7 @@ import { loadTheme, loadLanguage } from '../store/slices/settingsSlice';
 import { getToken } from '../utils/storage';
 import { useTheme } from '../hooks/useTheme';
 import i18n from '../i18n';
+import { StorageKeys } from '../constants/StorageKeys';
 
 export const AppNavigator = () => {
     const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
@@ -20,7 +21,7 @@ export const AppNavigator = () => {
 
     useEffect(() => {
         const checkToken = async () => {
-            const token = await getToken('userToken');
+            const token = await getToken(StorageKeys.AUTH_TOKEN);
             if (token) {
                 // You would typically validate the token here or fetch user profile
                 dispatch(restoreToken({ token, user: { name: 'Returned User', email: 'user@example.com' } }));

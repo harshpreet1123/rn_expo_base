@@ -7,4 +7,5 @@ export type ProfileMenuItemProps = {
   onSwitchChange?: (value: boolean) => void;
   color?: string;
   value?: string;
+  showChevron?: boolean;
 };

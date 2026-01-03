@@ -2,71 +2,29 @@ import React, { useMemo, useRef } from 'react';
 import { View, StyleSheet, Text, ScrollView, I18nManager, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Updates from 'expo-updates';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
-import { useAppDispatch, useAppSelector } from '../store';
+import { useAppDispatch } from '../store';
 import { logout } from '../store/slices/authSlice';
-import { setThemeMode, updateTheme, updateLanguage } from '../store/slices/settingsSlice';
 import { ProfileMenuItem } from '../components/ProfileMenuItem';
-import { LanguageSheet } from '../components/LanguageSheet';
 import { LogoutSheet } from '../components/LogoutSheet';
+import { RootStackParamList, MainTabParamList } from '../navigation/types';
 
-export const ProfileScreen = () => {
-  const { theme, isDark } = useTheme();
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<MainTabParamList, 'Profile'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
+
+export const ProfileScreen = ({ navigation }: Props) => {
+  const { theme } = useTheme();
   const styles = useMemo(() => getStyles(theme), [theme]);
   const dispatch = useAppDispatch();
-  const { t, i18n } = useTranslation();
-  const languageSheetRef = useRef<any>(null);
+  const { t } = useTranslation();
   const logoutSheetRef = useRef<any>(null);
-
-  const LANGUAGES = [
-    { code: 'en', label: 'English' },
-    { code: 'ar', label: 'العربية' },
-    { code: 'es', label: 'Español' },
-    { code: 'de', label: 'Deutsch' },
-    { code: 'hi', label: 'हिन्दी' },
-    { code: 'pa', label: 'ਪੰਜਾਬੀ' },
-    { code: 'ja', label: '日本語' },
-    { code: 'ko', label: '한국어' },
-  ];
-
-  const currentLanguageLabel = LANGUAGES.find(l => l.code === i18n.language)?.label || 'English';
-
-  // Settings Toggles
-  const handleThemeChange = (value: boolean) => {
-    dispatch(updateTheme(value ? 'dark' : 'light'));
-  };
-
-  const changeLanguage = async (langCode: string) => {
-    i18n.changeLanguage(langCode);
-    dispatch(updateLanguage(langCode));
-    languageSheetRef.current?.close();
-
-    const isRTL = langCode === 'ar';
-    if (isRTL !== I18nManager.isRTL) {
-      I18nManager.allowRTL(isRTL);
-      I18nManager.forceRTL(isRTL);
-      Alert.alert(
-        t('restartRequired'), // Make sure to add this key or just use English for now if simple
-        "This change requires an app restart to take full effect.",
-        [
-          {
-            text: "Restart Now",
-            onPress: async () => {
-              try {
-                await Updates.reloadAsync();
-              } catch {
-                // Fallback for dev client if updates not available
-                Alert.alert("Please restart the app manually.");
-              }
-            }
-          },
-          { text: "Later", style: "cancel" }
-        ]
-      );
-    }
-  };
 
   const confirmLogout = () => {
     logoutSheetRef.current?.close();
@@ -94,18 +52,10 @@ export const ProfileScreen = () => {
           <Text style={styles.sectionTitle}>Settings</Text>
           <View style={styles.menuContainer}>
             <ProfileMenuItem
-              icon="moon-outline"
-              label={t('darkMode')}
-              isSwitch
-              switchValue={isDark}
-              onSwitchChange={handleThemeChange}
-            />
-            <View style={styles.divider} />
-            <ProfileMenuItem
-              icon="language-outline"
-              label={t('language')}
-              value={currentLanguageLabel}
-              onPress={() => languageSheetRef.current?.open()}
+              icon="settings-outline"
+              label={t('settings')}
+              onPress={() => navigation.navigate('Settings')}
+              showChevron
             />
           </View>
         </View>
@@ -121,12 +71,7 @@ export const ProfileScreen = () => {
           </View>
         </View>
 
-        <LanguageSheet
-          ref={languageSheetRef}
-          languages={LANGUAGES}
-          currentLanguage={i18n.language}
-          onLanguageChange={changeLanguage}
-        />
+
 
         <LogoutSheet
           ref={logoutSheetRef}

@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { getString, saveString, STORAGE_KEYS } from '../../utils/preferences';
+import { getString, saveString } from '../../utils/preferences';
+import { StorageKeys } from '../../constants/StorageKeys';
 
 export const loadTheme = createAsyncThunk(
   'settings/loadTheme',
   async () => {
-    const theme = await getString(STORAGE_KEYS.THEME);
+    const theme = await getString(StorageKeys.THEME);
     if (theme === 'light' || theme === 'dark' || theme === 'system') {
       return theme;
     }
@@ -15,7 +16,7 @@ export const loadTheme = createAsyncThunk(
 export const updateTheme = createAsyncThunk(
   'settings/updateTheme',
   async (theme: 'light' | 'dark' | 'system') => {
-    await saveString(STORAGE_KEYS.THEME, theme);
+    await saveString(StorageKeys.THEME, theme);
     return theme;
   }
 );
@@ -23,7 +24,7 @@ export const updateTheme = createAsyncThunk(
 export const loadLanguage = createAsyncThunk(
   'settings/loadLanguage',
   async () => {
-    const language = await getString(STORAGE_KEYS.LANGUAGE);
+    const language = await getString(StorageKeys.LANGUAGE);
     return language; // Return null if not found
   }
 );
@@ -31,7 +32,7 @@ export const loadLanguage = createAsyncThunk(
 export const updateLanguage = createAsyncThunk(
   'settings/updateLanguage',
   async (language: string) => {
-    await saveString(STORAGE_KEYS.LANGUAGE, language);
+    await saveString(StorageKeys.LANGUAGE, language);
     return language;
   }
 );

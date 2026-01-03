@@ -8,11 +8,14 @@ import { ExploreScreen } from '../screens/ExploreScreen';
 import { ActivityScreen } from '../screens/ActivityScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { useTheme } from '../hooks/useTheme';
-import { MainTabParamList } from './types';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SettingsScreen } from '../screens/SettingsScreen';
+import { RootStackParamList, MainTabParamList } from './types';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export const MainNavigator = () => {
+const MainTabs = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -24,10 +27,10 @@ export const MainNavigator = () => {
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.textSecondary,
         tabBarStyle: {
-            borderTopColor: theme.colors.border,
-            backgroundColor: theme.colors.surface,
-            paddingBottom: Math.max(insets.bottom, theme.spacing.s),
-            height: 60 + insets.bottom,
+          borderTopColor: theme.colors.border,
+          backgroundColor: theme.colors.surface,
+          paddingBottom: Math.max(insets.bottom, theme.spacing.s),
+          height: 60 + insets.bottom,
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName: keyof typeof Ionicons.glyphMap = 'home';
@@ -49,5 +52,15 @@ export const MainNavigator = () => {
       <Tab.Screen name="Activity" component={ActivityScreen} options={{ tabBarLabel: t('activity') }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ tabBarLabel: t('profile') }} />
     </Tab.Navigator>
+  );
+};
+
+export const MainNavigator = () => {
+  const { t } = useTranslation();
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+      <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: t('settings') }} />
+    </Stack.Navigator>
   );
 };

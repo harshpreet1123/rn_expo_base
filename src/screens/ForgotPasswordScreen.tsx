@@ -9,7 +9,12 @@ import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { useTheme } from '../hooks/useTheme';
 
-export const ForgotPasswordScreen = ({ navigation }: any) => {
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '../navigation/types';
+
+type Props = NativeStackScreenProps<AuthStackParamList, 'ForgotPassword'>;
+
+export const ForgotPasswordScreen = ({ navigation }: Props) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);

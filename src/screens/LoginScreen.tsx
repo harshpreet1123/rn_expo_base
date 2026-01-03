@@ -11,7 +11,12 @@ import { useAppDispatch, useAppSelector } from '../store';
 import { login } from '../store/slices/authSlice';
 import { useTheme } from '../hooks/useTheme';
 
-export const LoginScreen = ({ navigation }: any) => {
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '../navigation/types';
+
+type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
+
+export const LoginScreen = ({ navigation }: Props) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const styles = useMemo(() => getStyles(theme), [theme]);
@@ -29,19 +34,19 @@ export const LoginScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
       >
-        <ScrollView 
-          contentContainerStyle={styles.scrollContent} 
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.header}>
             <View style={styles.logoContainer}>
-                <Ionicons name="cube-outline" size={64} color={theme.colors.primary} />
+              <Ionicons name="cube-outline" size={64} color={theme.colors.primary} />
             </View>
             <Text style={styles.title}>{t('welcome')}</Text>
             <Text style={styles.subtitle}>{t('loginSubtitle')}</Text>
@@ -78,38 +83,38 @@ export const LoginScreen = ({ navigation }: any) => {
                 />
 
                 <View style={styles.forgotPassword}>
-                    <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-                        <Text style={styles.forgotPasswordText}>{t('forgotPassword')}</Text>
-                    </TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+                    <Text style={styles.forgotPasswordText}>{t('forgotPassword')}</Text>
+                  </TouchableOpacity>
                 </View>
 
                 <Button
-                    title={t('signIn')}
-                    onPress={() => handleSubmit()}
-                    loading={isLoading}
-                    style={styles.button}
+                  title={t('signIn')}
+                  onPress={() => handleSubmit()}
+                  loading={isLoading}
+                  style={styles.button}
                 />
 
                 <View style={styles.divider}>
-                    <View style={styles.dividerLine} />
-                    <Text style={styles.dividerText}>{t('or')}</Text>
-                    <View style={styles.dividerLine} />
+                  <View style={styles.dividerLine} />
+                  <Text style={styles.dividerText}>{t('or')}</Text>
+                  <View style={styles.dividerLine} />
                 </View>
-                
+
                 <View style={styles.socialButtonsContainer}>
-                    <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
-                        <Ionicons name="logo-google" size={24} color={theme.colors.textPrimary} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
-                        <Ionicons name="logo-apple" size={24} color={theme.colors.textPrimary} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.socialButton} onPress={() => {}}>
-                        <Ionicons name="logo-facebook" size={24} color="#1877F2" />
-                    </TouchableOpacity>
+                  <TouchableOpacity style={styles.socialButton} onPress={() => { }}>
+                    <Ionicons name="logo-google" size={24} color={theme.colors.textPrimary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.socialButton} onPress={() => { }}>
+                    <Ionicons name="logo-apple" size={24} color={theme.colors.textPrimary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.socialButton} onPress={() => { }}>
+                    <Ionicons name="logo-facebook" size={24} color="#1877F2" />
+                  </TouchableOpacity>
                 </View>
-              
+
                 <Text style={styles.footerText}>
-                    {t('dontHaveAccount')} <Text style={styles.signUpText} onPress={() => navigation.navigate('Signup')}>{t('signUp')}</Text>
+                  {t('dontHaveAccount')} <Text style={styles.signUpText} onPress={() => navigation.navigate('Signup')}>{t('signUp')}</Text>
                 </Text>
               </View>
             )}
@@ -159,32 +164,32 @@ const getStyles = (theme: any) => StyleSheet.create({
     width: '100%',
   },
   forgotPassword: {
-      alignItems: 'flex-end',
-      marginBottom: theme.spacing.m,
+    alignItems: 'flex-end',
+    marginBottom: theme.spacing.m,
   },
   forgotPasswordText: {
-      ...theme.typography.caption,
-      color: theme.colors.primary,
-      fontWeight: '600',
+    ...theme.typography.caption,
+    color: theme.colors.primary,
+    fontWeight: '600',
   },
   button: {
     marginBottom: theme.spacing.l,
     ...theme.shadows.low,
   },
   divider: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: theme.spacing.l,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: theme.spacing.l,
   },
   dividerLine: {
-      flex: 1,
-      height: 1,
-      backgroundColor: theme.colors.border,
+    flex: 1,
+    height: 1,
+    backgroundColor: theme.colors.border,
   },
   dividerText: {
-      marginHorizontal: theme.spacing.m,
-      ...theme.typography.caption,
-      color: theme.colors.textSecondary,
+    marginHorizontal: theme.spacing.m,
+    ...theme.typography.caption,
+    color: theme.colors.textSecondary,
   },
   socialButtonsContainer: {
     flexDirection: 'row',
@@ -193,14 +198,14 @@ const getStyles = (theme: any) => StyleSheet.create({
     gap: theme.spacing.l, // Space evenly
   },
   socialButton: {
-      width: 56,
-      height: 56,
-      borderRadius: 28, // Round
-      borderWidth: 1.5,
-      borderColor: theme.colors.border,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: theme.colors.surface,
+    width: 56,
+    height: 56,
+    borderRadius: 28, // Round
+    borderWidth: 1.5,
+    borderColor: theme.colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.surface,
   },
   footerText: {
     ...theme.typography.body,
@@ -208,7 +213,7 @@ const getStyles = (theme: any) => StyleSheet.create({
     color: theme.colors.textSecondary,
   },
   signUpText: {
-      color: theme.colors.primary,
-      fontWeight: 'bold',
+    color: theme.colors.primary,
+    fontWeight: 'bold',
   }
 });

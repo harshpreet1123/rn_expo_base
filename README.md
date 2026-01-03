@@ -1,114 +1,143 @@
+# React Native Expo Base Template
 
-# Expo + React Native Professional Starter
-
-A production-ready, scalable, and beautifully designed React Native template using Expo. Built for performance, developer experience, and maintainability.
+A professional, feature-rich starter template for building high-quality mobile applications with React Native and Expo. This template mirrors the robustness of our Flutter architecture, tailored for the React ecosystem.
 
 ## 🚀 Features
 
-- **Core Stack**: React Native (latest), Expo SDK 54, TypeScript.
-- **Navigation**: React Navigation 7 (Stack & Bottom Tabs) with isolated navigators.
-- **Internationalization (i18n)**:
-  - Built-in support for **English, Spanish, German, Hindi, Punjabi, Japanese, Korean**.
-  - Auto-language detection using `expo-localization`.
-  - Dynamic language switching with instant UI updates.
-  - Modular translation files (`.json`) in `src/i18n/locales`.
-- **State Management**: Redux Toolkit + RTK Query configured.
-- **Styling**:
-  - **Custom Theme System**: Microsoft Flat UI inspired, supporting **Dark Mode** & **Light Mode**.
-  - **Figma-like Tokens**: Clean color palette (Slate), consistent spacing, and Inter typography.
-  - **Hooks**: `useTheme` hook for dynamic styling.
-  - **Safe Area**: Handling of safe areas and navigation bar insets.
-- **Authentication**: Pre-built Login, Signup, and Forgot Password flows with Formik & Yup validation.
-- **Storage**: Secure storage using `expo-secure-store`.
-- **Fonts**: Pre-integrated Google Fonts (Inter).
-- **Splash Screen**: Programmatic control via `expo-splash-screen`.
-- **Components**: Reusable, polished components:
-  - `Button`, `Input`
-  - `ProfileMenuItem`, `LanguageSheet`, `LogoutSheet` (using **react-native-raw-bottom-sheet**)
+*   **Robust Authentication**: Pre-configured Redux Slices for Login, Signup, and auto-login flows.
+*   **Networking**: Modern **RTK Query** setup with:
+    *   Auto-injected Auth Headers.
+    *   Environment variable support (`.env`).
+    *   Caching and automatic re-fetching.
+*   **Navigation**: 
+    *   React Navigation v7 (Stack & Tabs).
+    *   **Type-Safe Navigation**: Fully typed screens and route parameters using TypeScript.
+*   **Internationalization (i18n)**:
+    *   Powered by `i18next` and `expo-localization`.
+    *   Full support for **English, Spanish, Arabic**.
+    *   **RTL Support**: Automatic layout handling.
+*   **Theming**:
+    *   Dynamic **Light/Dark mode** support.
+    *   Redux-managed, persisted user preference.
+*   **State Management**: Scalable architecture using **Redux Toolkit**.
+*   **Secure & Local Storage**:
+    *   `AsyncStorage` for non-sensitive settings (Theme, Language).
+    *   `Expo SecureStore` for sensitive data (Auth Tokens).
+    *   Unified `StorageKeys` constants.
+
+## 🛠 Tech Stack
+
+*   **Framework**: React Native (Expo SDK 54+)
+*   **Language**: TypeScript
+*   **State Management**: Redux Toolkit (RTK)
+*   **Networking**: RTK Query
+*   **Navigation**: React Navigation v7
+*   **Forms**: Formik + Yup
+*   **Storage**: Expo SecureStore + AsyncStorage
+*   **Icons**: Ionicons
 
 ## 📂 Project Structure
 
-```bash
+The project structure is designed to be intuitive and scalable.
+
+```
 src/
-├── components/   # Reusable UI components (Button, Input, Sheets, etc.)
-├── constants/    # App-wide constants
-├── hooks/        # Custom hooks (useTheme, etc.)
-├── i18n/         # Internationalization setup and locales
-│   ├── locales/  # JSON translation files (en, es, de, etc.)
-│   └── index.ts  # i18n initialization
-├── navigation/   # Navigation setup (AuthNavigator, MainNavigator, AppNavigator)
-├── screens/      # Application screens (Login, Home, Profile, etc.)
-├── services/     # API services (RTK Query baseApi)
-├── store/        # Redux setup (Slices, Store configuration)
-├── theme/        # Design tokens (Colors, Spacing, Typography)
-├── types/        # TypeScript Definitions
-└── utils/        # Utility functions (Storage helpers)
+├── components/          # Reusable UI components (Buttons, Inputs)
+├── constants/           # Global constants (StorageKeys, Colors)
+├── hooks/               # Custom React Hooks
+├── i18n/                # Localization resources (JSON files)
+├── navigation/          # React Navigation setup (Stacks, Tabs)
+├── screens/             # Application screens (Pages)
+├── services/            # Infrastructure services
+│   └── baseApi.ts       # RTK Query API definition with Auth Interceptor
+├── store/               # Redux Store & Slices
+│   └── slices/          # Feature slices (Auth, Settings)
+├── theme/               # Design System & Theme Config
+└── utils/               # Utility functions (Storage wrappers)
 ```
 
-## 🛠 Getting Started
+## ⚡ Getting Started
 
-1.  **Install Dependencies**
-    ```bash
-    npm install
-    ```
+### 1. Requirements
 
-2.  **Start the Project**
-    ```bash
-    npx expo start -c
-    ```
+*   Node.js (LTS)
+*   Expo CLI (`npx expo`)
+*   iOS Simulator or Android Emulator
 
-## 🎨 Customization Guide
+### 2. Setup
 
-### 1. Theming & Colors
-The theme is centralized in `src/theme/theme.ts`. To customize the brand colors:
--   Open `src/theme/theme.ts`.
--   Update `colors.primary`, `colors.surface`, etc.
--   The dark mode logic is handled in `src/hooks/useTheme.ts`. You can customize dark mode overrides there.
+Install dependencies:
 
-### 2. Internationalization (i18n)
--   **Add a Language**:
-    1.  Create `src/i18n/locales/[lang].json`.
-    2.  Import it in `src/i18n/index.ts` and add it to the `resources` object.
-    3.  Add the language option to the `LANGUAGES` array in `src/screens/ProfileScreen.tsx`.
--   **Use Translations**:
+```bash
+npm install
+```
+
+### 3. Environment Config
+
+Create a `.env` file in the root directory:
+
+```env
+EXPO_PUBLIC_API_BASE_URL=https://api.yourdomain.com
+```
+
+### 4. Run the App
+
+```bash
+npx expo start
+```
+*   Press `a` for Android.
+*   Press `i` for iOS.
+
+## 📖 Development Guide
+
+### How to Add a New Page
+
+1.  Create the screen component in `src/screens/MyNewScreen.tsx`.
+2.  Define the props type using `NativeStackScreenProps` or `BottomTabScreenProps`:
     ```tsx
-    import { useTranslation } from 'react-i18next';
-    
-    const MyComponent = () => {
-      const { t } = useTranslation();
-      return <Text>{t('welcome')}</Text>;
-    };
+    import { NativeStackScreenProps } from '@react-navigation/native-stack';
+    import { RootStackParamList } from '../navigation/types';
+
+    type Props = NativeStackScreenProps<RootStackParamList, 'MyNewScreen'>;
+
+    export const MyNewScreen = ({ navigation }: Props) => { ... }
     ```
-
-### 3. Adding New Screens
-1.  Create your screen component in `src/screens/`.
-2.  Use the `useTheme` hook for styling:
-    ```tsx
-    import { useTheme } from '../hooks/useTheme';
-
-    const MyScreen = () => {
-      const { theme, isDark } = useTheme();
-      const styles = getStyles(theme);
+3.  Add the route name to `src/navigation/types.ts`:
+    ```typescript
+    export type RootStackParamList = {
       // ...
+      MyNewScreen: undefined;
     };
-    
-    const getStyles = (theme) => StyleSheet.create({ ... });
     ```
-3.  Add the screen to `src/navigation/MainNavigator.tsx` or `src/navigation/AuthNavigator.tsx`.
+4.  Add it to the navigator (e.g., `src/navigation/MainNavigator.tsx`).
 
-## 📦 Key Libraries Used
--   `@react-navigation/*`: For routing.
--   `@reduxjs/toolkit` & `react-redux`: For state.
--   `i18next` & `react-i18next`: For translations.
--   `formik` & `yup`: For forms.
--   `react-native-raw-bottom-sheet`: For modal interactions.
--   `expo-secure-store`: For storing tokens securely.
--   `expo-font` & `@expo-google-fonts/inter`: For typography.
+### How to Add/Edit Translations
 
-## 📱 Navigation Structure
--   **AuthNavigator**: Login -> Signup / Forgot Password.
--   **MainNavigator** (Protected): Home | Explore | Activity | Profile.
--   **AppNavigator**: Root navigator switching between Auth and Main based on authentication state.
+1.  Open `src/i18n/locales/en.json`.
+2.  Add your new key-value pair.
+3.  Add the same key to `es.json` and `ar.json`.
+4.  Use it in code:
+    ```tsx
+    const { t } = useTranslation();
+    <Text>{t('myNewKey')}</Text>
+    ```
 
-## 📄 License
-MIT
+### Networking (RTK Query)
+
+The `baseApi.ts` is already set up.
+
+1.  Add endpoints to `src/services/baseApi.ts`:
+    ```typescript
+    getUsers: builder.query<User[], void>({
+      query: () => 'users',
+    }),
+    ```
+2.  Auto-generated hooks will be available:
+    ```typescript
+    const { data, isLoading } = useGetUsersQuery();
+    ```
+
+## 🧹 Maintenance
+
+*   **Linting**: Run `npm run lint` to check for issues (if configured).
+*   **Types**: Ensure strict typing is maintained in `types.ts` for all navigation routes.

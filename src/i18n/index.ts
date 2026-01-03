@@ -4,21 +4,11 @@ import * as Localization from 'expo-localization';
 
 import en from './locales/en.json';
 import es from './locales/es.json';
-import de from './locales/de.json';
-import hi from './locales/hi.json';
-import pa from './locales/pa.json';
-import ja from './locales/ja.json';
-import ko from './locales/ko.json';
 import ar from './locales/ar.json';
 
 const resources = {
   en: { translation: en },
   es: { translation: es },
-  de: { translation: de },
-  hi: { translation: hi },
-  pa: { translation: pa },
-  ja: { translation: ja },
-  ko: { translation: ko },
   ar: { translation: ar },
 };
 

@@ -1,9 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const STORAGE_KEYS = {
-  THEME: 'settings.theme',
-  LANGUAGE: 'settings.language',
-};
+
 
 export const saveString = async (key: string, value: string) => {
   try {

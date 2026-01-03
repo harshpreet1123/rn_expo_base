@@ -1,7 +1,6 @@
-export type AuthStackParamList = {
-  Login: undefined;
-  Signup: undefined;
-  ForgotPassword: undefined;
+export type RootStackParamList = {
+  MainTabs: undefined;
+  Settings: undefined;
 };
 
 export type MainTabParamList = {
@@ -9,4 +8,10 @@ export type MainTabParamList = {
   Explore: undefined;
   Activity: undefined;
   Profile: undefined;
+};
+
+export type AuthStackParamList = {
+  Login: undefined;
+  Signup: undefined;
+  ForgotPassword: undefined;
 };
